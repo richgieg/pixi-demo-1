@@ -31,19 +31,21 @@ export class GameScene extends Scene {
     }
 
     onCollisionStart(event) {
-        const colliders = [event.pairs[0].bodyA, event.pairs[0].bodyB];
-        const hero = colliders.find(body => body.gameHero);
-        const platform = colliders.find(body => body.gamePlatform);
+        event.pairs.forEach(pair => {
+            const colliders = [pair.bodyA, pair.bodyB];
+            const hero = colliders.find(body => body.gameHero);
+            const platform = colliders.find(body => body.gamePlatform);
 
-        if (hero && platform) {
-            this.hero.stayOnPlatform(platform.gamePlatform);
-        }
+            if (hero && platform) {
+                this.hero.stayOnPlatform(platform.gamePlatform);
+            }
 
-        const diamond = colliders.find(body => body.gameDiamond);
+            const diamond = colliders.find(body => body.gameDiamond);
 
-        if (hero && diamond) {
-            this.hero.collectDiamond(diamond.gameDiamond);
-        }
+            if (hero && diamond) {
+                this.hero.collectDiamond(diamond.gameDiamond);
+            }
+        });
     }
 
     createHero() {
