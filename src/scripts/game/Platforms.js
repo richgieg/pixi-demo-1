@@ -35,13 +35,13 @@ export class Platforms {
         this.current = platform;
     }
 
-    update() {
+    update(dt) {
         if (this.current.container.x + this.current.container.width < window.innerWidth) {
             this.createPlatform(this.randomData);
         }
 
         // 06
-        this.platforms.forEach(platform => platform.move());
+        this.platforms.forEach(platform => platform.update(dt));
     }
 
     // [14]
