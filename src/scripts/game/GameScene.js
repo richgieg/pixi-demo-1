@@ -73,6 +73,7 @@ export class GameScene extends Scene {
     }
 
     update(dt) {
+        Matter.Engine.update(App.physics, App.app.ticker.deltaMS);
         this.bg.update(dt);
         this.platfroms.update(dt);
     }

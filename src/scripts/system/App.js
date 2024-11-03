@@ -28,8 +28,6 @@ class Application {
 
     createPhysics() {
         this.physics = Matter.Engine.create();
-        const runner = Matter.Runner.create();
-        Matter.Runner.run(runner, this.physics);
     }
     // [/06]
 
