@@ -2,10 +2,12 @@ import * as Matter from 'matter-js';
 import * as PIXI from "pixi.js";
 import { App } from '../system/App';
 import { Collectible } from './Collectible';
+import { Enemy } from './Enemy';
 
 export class Platform {
     constructor(rows, cols, x) {
         this.collectibles = [];
+        this.enemy = null;
 
         this.rows = rows;
         this.cols = cols;
@@ -20,6 +22,25 @@ export class Platform {
         this.dx = App.config.platforms.moveSpeed;
         this.createBody();
         this.createCollectibles();
+        this.maybeCreateEnemy();
+    }
+
+    maybeCreateEnemy() {
+        App.config.enemies.sort((a, b) => a.chance - b.chance);
+        const random = Math.random();
+        for (const { kind, chance, speed } of App.config.enemies) {
+            if (random < chance) {
+                this.createEnemy(kind, speed, this.tileSize * this.cols);
+                break;
+            }
+        }
+    }
+
+    createEnemy(kind, speed, platformWidth) {
+        const enemy = new Enemy(kind, speed, platformWidth);
+        this.container.addChild(enemy.sprite);
+        enemy.createBody();
+        this.enemy = enemy;
     }
 
     createCollectibles() {
@@ -80,6 +101,9 @@ export class Platform {
     destroy() {
         Matter.World.remove(App.physics.world, this.body);
         this.collectibles.forEach(collectible => collectible.destroy());
+        if (this.enemy) {
+            this.enemy.destroy();
+        }
         this.container.destroy();
     }
 }

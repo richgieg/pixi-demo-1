@@ -47,6 +47,23 @@ export const Config = {
             offset: 560
         }
     ],
+    enemies: [
+        {
+            kind: "slow",
+            chance: 0.5,
+            speed: 25,
+        },
+        {
+            kind: "medium",
+            chance: 0.3,
+            speed: 50,
+        },
+        {
+            kind: "fast",
+            chance: 0.1,
+            speed: 100,
+        }
+    ],
     platforms: {
         moveSpeed: -1.5,
         ranges: {
