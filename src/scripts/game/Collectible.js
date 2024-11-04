@@ -2,15 +2,16 @@ import * as Matter from 'matter-js';
 import { App } from '../system/App';
 
 export class Collectible {
-    constructor(kind, value, x, y) {
-        this.createSprite(kind, x, y);
+    constructor(kind, value, platformX, platformTileSize, y) {
+        this.createSprite(kind, platformX, platformTileSize, y);
         App.app.ticker.add(this.update, this);
         this.value = value;
     }
 
-    createSprite(kind, x, y) {
+    createSprite(kind, platformX, platformTileSize, y) {
         this.sprite = App.sprite(kind);
-        this.sprite.x = x;
+        // Center the collectible within the platform tile.
+        this.sprite.x = platformX + ((platformTileSize - this.sprite.width) / 2);
         this.sprite.y = y;
     }
 

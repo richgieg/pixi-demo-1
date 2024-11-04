@@ -26,14 +26,14 @@ export class Platform {
         for (let i = 0; i < this.cols; i++) {
             for (const { kind, value, chance, offset } of App.config.collectibles) {
                 if (Math.random() < chance) {
-                    this.createCollectible(kind, value, this.tileSize * i, -offset);
+                    this.createCollectible(kind, value, this.tileSize * i, this.tileSize, -offset);
                 }
             }
         }
     }
 
-    createCollectible(kind, value, x, y) {
-        const collectible = new Collectible(kind, value, x, y);
+    createCollectible(kind, value, platformX, platformTileSize, y) {
+        const collectible = new Collectible(kind, value, platformX, platformTileSize, y);
         this.container.addChild(collectible.sprite);
         collectible.createBody();
         this.collectibles.push(collectible);
