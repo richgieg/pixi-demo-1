@@ -15,6 +15,14 @@ export const Config = {
             fill: ["#FF7F50"]
         }
     },
+    collectibles: [
+        {
+            kind: "diamond",
+            value: 1,
+            chance: 0.4,
+            offset: 50
+        }
+    ],
     diamonds: {
         chance: 0.4,
         offset: {

@@ -14,6 +14,12 @@ export class Hero {
         this.score = 0;
     }
 
+    collectCollectible(collectible) {
+        this.score += collectible.value;
+        this.sprite.emit("score");
+        collectible.destroy();
+    }
+
     collectDiamond(diamond) {
         ++this.score;
         //[13]

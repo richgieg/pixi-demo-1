@@ -45,6 +45,12 @@ export class GameScene extends Scene {
             if (hero && diamond) {
                 this.hero.collectDiamond(diamond.gameDiamond);
             }
+
+            const collectible = colliders.find(body => body.gameCollectible);
+
+            if (hero && collectible) {
+                this.hero.collectCollectible(collectible.gameCollectible);
+            }
         });
     }
 

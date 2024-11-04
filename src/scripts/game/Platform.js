@@ -4,12 +4,14 @@ import { App } from '../system/App';
 // [10]
 import { Diamond } from './Diamond';
 // [/10]
+import { Collectible } from './Collectible';
 
 export class Platform {
     constructor(rows, cols, x) {
         // [10]
         this.diamonds = [];
         // [/10]
+        this.collectibles = [];
 
         this.rows = rows;
         this.cols = cols;
@@ -24,6 +26,24 @@ export class Platform {
         this.dx = App.config.platforms.moveSpeed;
         this.createBody();
         this.createDiamonds();
+        this.createCollectibles();
+    }
+
+    createCollectibles() {
+        for (let i = 0; i < this.cols; i++) {
+            for (const { kind, value, chance, offset } of App.config.collectibles) {
+                if (Math.random() < chance) {
+                    this.createCollectible(kind, value, this.tileSize * i, -offset);
+                }
+            }
+        }
+    }
+
+    createCollectible(kind, value, x, y) {
+        const collectible = new Collectible(kind, value, x, y);
+        this.container.addChild(collectible.sprite);
+        collectible.createBody();
+        this.collectibles.push(collectible);
     }
 
     // [10]
@@ -86,6 +106,7 @@ export class Platform {
     destroy() {
         Matter.World.remove(App.physics.world, this.body);
         this.diamonds.forEach(diamond => diamond.destroy());
+        this.collectibles.forEach(collectible => collectible.destroy());
         this.container.destroy();
     }
 }
