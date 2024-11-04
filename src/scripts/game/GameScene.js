@@ -40,10 +40,10 @@ export class GameScene extends Scene {
                 this.hero.stayOnPlatform(platform.gamePlatform);
             }
 
-            const diamond = colliders.find(body => body.gameDiamond);
+            const collectible = colliders.find(body => body.gameCollectible);
 
-            if (hero && diamond) {
-                this.hero.collectDiamond(diamond.gameDiamond);
+            if (hero && collectible) {
+                this.hero.collectCollectible(collectible.gameCollectible);
             }
         });
     }

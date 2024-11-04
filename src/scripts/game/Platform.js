@@ -1,15 +1,11 @@
 import * as Matter from 'matter-js';
 import * as PIXI from "pixi.js";
 import { App } from '../system/App';
-// [10]
-import { Diamond } from './Diamond';
-// [/10]
+import { Collectible } from './Collectible';
 
 export class Platform {
     constructor(rows, cols, x) {
-        // [10]
-        this.diamonds = [];
-        // [/10]
+        this.collectibles = [];
 
         this.rows = rows;
         this.cols = cols;
@@ -23,27 +19,25 @@ export class Platform {
 
         this.dx = App.config.platforms.moveSpeed;
         this.createBody();
-        this.createDiamonds();
+        this.createCollectibles();
     }
 
-    // [10]
-    createDiamonds() {
-        const y = App.config.diamonds.offset.min + Math.random() * (App.config.diamonds.offset.max - App.config.diamonds.offset.min);
-
+    createCollectibles() {
         for (let i = 0; i < this.cols; i++) {
-            if (Math.random() < App.config.diamonds.chance) {
-                this.createDiamond(this.tileSize * i, -y);
+            for (const { kind, value, chance, offset } of App.config.collectibles) {
+                if (Math.random() < chance) {
+                    this.createCollectible(kind, value, this.tileSize * i, this.tileSize, -offset);
+                }
             }
         }
     }
 
-    createDiamond(x, y) {
-            const diamond = new Diamond(x, y);
-            this.container.addChild(diamond.sprite);
-            diamond.createBody();
-            this.diamonds.push(diamond);
+    createCollectible(kind, value, platformX, platformTileSize, y) {
+        const collectible = new Collectible(kind, value, platformX, platformTileSize, y);
+        this.container.addChild(collectible.sprite);
+        collectible.createBody();
+        this.collectibles.push(collectible);
     }
-    // [/10]
 
     createBody() {
         this.body = Matter.Bodies.rectangle(this.width / 2 + this.container.x, this.height / 2 + this.container.y, this.width, this.height, {friction: 0, isStatic: true});
@@ -85,7 +79,7 @@ export class Platform {
 
     destroy() {
         Matter.World.remove(App.physics.world, this.body);
-        this.diamonds.forEach(diamond => diamond.destroy());
+        this.collectibles.forEach(collectible => collectible.destroy());
         this.container.destroy();
     }
 }

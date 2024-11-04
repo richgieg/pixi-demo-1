@@ -15,13 +15,38 @@ export const Config = {
             fill: ["#FF7F50"]
         }
     },
-    diamonds: {
-        chance: 0.4,
-        offset: {
-            min: 100,
-            max: 200
+    collectibles: [
+        {
+            kind: "ruby",
+            value: 1,
+            chance: 1,
+            offset: 50
+        },
+        {
+            kind: "emerald",
+            value: 2,
+            chance: 0.4,
+            offset: 225
+        },
+        {
+            kind: "sapphire",
+            value: 5,
+            chance: 0.2,
+            offset: 375
+        },
+        {
+            kind: "amethyst",
+            value: 10,
+            chance: 0.1,
+            offset: 475
+        },
+        {
+            kind: "diamond",
+            value: 25,
+            chance: 0.05,
+            offset: 560
         }
-    },
+    ],
     platforms: {
         moveSpeed: -1.5,
         ranges: {
