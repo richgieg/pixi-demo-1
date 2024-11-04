@@ -20,6 +20,17 @@ export class Hero {
         collectible.destroy();
     }
 
+    killEnemy(enemy) {
+        this.score += enemy.value;
+        this.sprite.emit("score");
+        enemy.destroy();
+    }
+
+    resetScore() {
+        this.score = 0;
+        this.sprite.emit("score");
+    }
+
     startJump() {
         if (this.platform || this.jumpIndex === 1) {
             ++this.jumpIndex;

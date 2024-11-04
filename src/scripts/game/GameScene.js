@@ -45,6 +45,16 @@ export class GameScene extends Scene {
             if (hero && collectible) {
                 this.hero.collectCollectible(collectible.gameCollectible);
             }
+
+            const enemy = colliders.find(body => body.gameEnemy);
+
+            if (hero && enemy) {
+                if (!this.hero.platform && hero.velocity.y > 0) {
+                    this.hero.killEnemy(enemy.gameEnemy);
+                } else {
+                    this.hero.resetScore();
+                }
+            }
         });
     }
 
