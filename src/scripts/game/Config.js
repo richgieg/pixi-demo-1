@@ -25,25 +25,25 @@ export const Config = {
         {
             kind: "emerald",
             value: 2,
-            chance: 1,
+            chance: 0.4,
             offset: 225
         },
         {
             kind: "sapphire",
             value: 5,
-            chance: 1,
+            chance: 0.2,
             offset: 375
         },
         {
             kind: "amethyst",
             value: 10,
-            chance: 1,
+            chance: 0.1,
             offset: 475
         },
         {
             kind: "diamond",
             value: 25,
-            chance: 1,
+            chance: 0.05,
             offset: 560
         }
     ],
