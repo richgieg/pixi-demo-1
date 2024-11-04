@@ -4,14 +4,14 @@ import { gsap } from "gsap";
 import { App } from '../system/App';
 
 export class Enemy {
-    constructor(kind, speed, platformWidth) {
+    constructor(kind, animationSpeed, patrollingSpeed, platformWidth) {
         this.x = 0;
-        this.createSprite(kind);
+        this.createSprite(kind, animationSpeed);
         App.app.ticker.add(this.update, this);
-        this.startPatrolling(speed, platformWidth);
+        this.startPatrolling(patrollingSpeed, platformWidth);
     }
 
-    createSprite(kind) {
+    createSprite(kind, animationSpeed) {
         this.sprite = new PIXI.AnimatedSprite([
             App.res(`${kind}-enemy-walk1`),
             App.res(`${kind}-enemy-walk2`)
@@ -20,14 +20,14 @@ export class Enemy {
         this.sprite.x = this.x;
         this.sprite.y = -this.sprite.height;
         this.sprite.loop = true;
-        this.sprite.animationSpeed = 0.1;
+        this.sprite.animationSpeed = animationSpeed;
         this.sprite.play();
     }
 
-    startPatrolling(speed, platformWidth) {
+    startPatrolling(patrollingSpeed, platformWidth) {
         gsap.to(this, {
             x: platformWidth - this.sprite.width,
-            duration: 1 / speed * platformWidth,
+            duration: 1 / patrollingSpeed * platformWidth,
             ease: "none",
             repeat: -1,
             yoyo: true

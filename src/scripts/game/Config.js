@@ -51,17 +51,20 @@ export const Config = {
         {
             kind: "slow",
             chance: 0.5,
-            speed: 25,
+            animationSpeed: 0.05,
+            patrollingSpeed: 25
         },
         {
             kind: "medium",
             chance: 0.3,
-            speed: 50,
+            animationSpeed: 0.1,
+            patrollingSpeed: 50
         },
         {
             kind: "fast",
             chance: 0.1,
-            speed: 100,
+            animationSpeed: 0.2,
+            patrollingSpeed: 100
         }
     ],
     platforms: {
