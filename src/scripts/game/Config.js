@@ -23,13 +23,6 @@ export const Config = {
             offset: 50
         }
     ],
-    diamonds: {
-        chance: 0.4,
-        offset: {
-            min: 100,
-            max: 200
-        }
-    },
     platforms: {
         moveSpeed: -1.5,
         ranges: {

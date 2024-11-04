@@ -20,15 +20,6 @@ export class Hero {
         collectible.destroy();
     }
 
-    collectDiamond(diamond) {
-        ++this.score;
-        //[13]
-        this.sprite.emit("score");
-        //[/13]
-        diamond.destroy();
-    }
-    //[/12]
-
     startJump() {
         if (this.platform || this.jumpIndex === 1) {
             ++this.jumpIndex;

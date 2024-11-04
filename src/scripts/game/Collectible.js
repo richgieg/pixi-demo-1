@@ -27,7 +27,6 @@ export class Collectible {
         Matter.World.add(App.physics.world, this.body);
     }
 
-    // [14]
     destroy() {
         if (this.sprite) {
             App.app.ticker.remove(this.update, this);
