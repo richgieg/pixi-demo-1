@@ -50,18 +50,21 @@ export const Config = {
     enemies: [
         {
             kind: "slow",
+            value: 5,
             chance: 0.5,
             animationSpeed: 0.05,
             patrollingSpeed: 25
         },
         {
             kind: "medium",
+            value: 10,
             chance: 0.3,
             animationSpeed: 0.1,
             patrollingSpeed: 50
         },
         {
             kind: "fast",
+            value: 25,
             chance: 0.1,
             animationSpeed: 0.2,
             patrollingSpeed: 100

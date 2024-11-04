@@ -21,7 +21,7 @@ export class Hero {
     }
 
     killEnemy(enemy) {
-        this.score += 10;
+        this.score += enemy.value;
         this.sprite.emit("score");
         enemy.destroy();
     }

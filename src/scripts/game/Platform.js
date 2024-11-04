@@ -28,16 +28,16 @@ export class Platform {
     maybeCreateEnemy() {
         App.config.enemies.sort((a, b) => a.chance - b.chance);
         const random = Math.random();
-        for (const { kind, chance, animationSpeed, patrollingSpeed } of App.config.enemies) {
+        for (const { kind, value, chance, animationSpeed, patrollingSpeed } of App.config.enemies) {
             if (random < chance) {
-                this.createEnemy(kind, animationSpeed, patrollingSpeed, this.tileSize * this.cols);
+                this.createEnemy(kind, value, animationSpeed, patrollingSpeed, this.tileSize * this.cols);
                 break;
             }
         }
     }
 
-    createEnemy(kind, animationSpeed, patrollingSpeed, platformWidth) {
-        const enemy = new Enemy(kind, animationSpeed, patrollingSpeed, platformWidth);
+    createEnemy(kind, value, animationSpeed, patrollingSpeed, platformWidth) {
+        const enemy = new Enemy(kind, value, animationSpeed, patrollingSpeed, platformWidth);
         this.container.addChild(enemy.sprite);
         enemy.createBody();
         this.enemy = enemy;

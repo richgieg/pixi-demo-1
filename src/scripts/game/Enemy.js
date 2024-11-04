@@ -4,7 +4,8 @@ import { gsap } from "gsap";
 import { App } from '../system/App';
 
 export class Enemy {
-    constructor(kind, animationSpeed, patrollingSpeed, platformWidth) {
+    constructor(kind, value, animationSpeed, patrollingSpeed, platformWidth) {
+        this.value = value;
         this.x = 0;
         this.createSprite(kind, animationSpeed);
         App.app.ticker.add(this.update, this);
