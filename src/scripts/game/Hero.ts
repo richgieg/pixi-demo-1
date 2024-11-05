@@ -5,13 +5,15 @@ import { Collectible } from './Collectible';
 import { Enemy } from './Enemy';
 import { Platform } from './Platform';
 
+type HeroBody = Matter.Body & { gameHero: Hero };
+
 export class Hero {
     dy: number;
     maxJumps: number;
     jumpIndex: number;
     score: number;
     sprite!: PIXI.AnimatedSprite;
-    body!: Matter.Body;
+    body!: HeroBody;
     platform: Platform | null;
 
     constructor() {
@@ -59,9 +61,10 @@ export class Hero {
     // [/08]
 
     createBody() {
-        this.body = Matter.Bodies.rectangle(this.sprite.x + this.sprite.width / 2, this.sprite.y + this.sprite.height / 2, this.sprite.width, this.sprite.height, {friction: 0});
+        const body = Matter.Bodies.rectangle(this.sprite.x + this.sprite.width / 2, this.sprite.y + this.sprite.height / 2, this.sprite.width, this.sprite.height, {friction: 0});
+        this.body = body as HeroBody;
+        this.body.gameHero = this;
         Matter.World.add(App.physics.world, this.body);
-        (this.body as any).gameHero = this;
     }
 
     update() {
@@ -92,5 +95,9 @@ export class Hero {
         App.app.ticker.remove(this.update, this);
         Matter.World.add(App.physics.world, this.body);
         this.sprite.destroy();
+    }
+
+    static isHeroBody(body: Matter.Body): body is HeroBody {
+        return "gameHero" in body;
     }
 }

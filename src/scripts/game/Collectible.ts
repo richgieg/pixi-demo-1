@@ -3,11 +3,13 @@ import * as Matter from 'matter-js';
 import { gsap } from "gsap";
 import { App } from '../system/App';
 
+type CollectibleBody = Matter.Body & { gameCollectible: Collectible };
+
 export class Collectible {
     value: number;
     y: number;
     sprite!: PIXI.Sprite;
-    body!: Matter.Body;
+    body!: CollectibleBody;
 
     constructor(kind: string, value: number, platformX: number, platformTileSize: number, y: number) {
         this.value = value;
@@ -43,10 +45,11 @@ export class Collectible {
     }
 
     createBody() {
-        this.body = Matter.Bodies.rectangle(this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y, this.sprite.width, this.sprite.height, {friction: 0, isStatic: true, render: { fillStyle: '#060a19' }});
+        const body = Matter.Bodies.rectangle(this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y, this.sprite.width, this.sprite.height, {friction: 0, isStatic: true, render: { fillStyle: '#060a19' }});
+        this.body = body as CollectibleBody;
         this.body.isSensor = true;
-        (this.body as any).gameCollectible = this;
-        Matter.World.add((App.physics as any).world, this.body);
+        this.body.gameCollectible = this;
+        Matter.World.add(App.physics.world, this.body);
     }
 
     destroy() {
@@ -57,5 +60,9 @@ export class Collectible {
             (this.sprite as any) = null; // TODO: fix me
             gsap.killTweensOf(this);
         }
+    }
+
+    static isCollectibleBody(body: Matter.Body): body is CollectibleBody {
+        return "gameCollectible" in body;
     }
 }

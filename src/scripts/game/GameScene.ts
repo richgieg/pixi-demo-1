@@ -5,6 +5,9 @@ import { Background } from "./Background";
 import { Scene } from '../system/Scene';
 import { Hero } from "./Hero";
 import { Platforms } from "./Platforms";
+import { Platform } from './Platform';
+import { Collectible } from './Collectible';
+import { Enemy } from './Enemy';
 
 export class GameScene extends Scene {
     labelScore!: LabelScore;
@@ -38,24 +41,24 @@ export class GameScene extends Scene {
     onCollisionStart(event: Matter.IEventCollision<Matter.Engine>) {
         event.pairs.forEach(pair => {
             const colliders = [pair.bodyA, pair.bodyB];
-            const hero = colliders.find(body => (body as any).gameHero);
-            const platform = colliders.find(body => (body as any).gamePlatform);
+            const hero = colliders.find(body => Hero.isHeroBody(body));
+            const platform = colliders.find(body => Platform.isPlatformBody(body));
 
             if (hero && platform) {
-                this.hero.stayOnPlatform((platform as any).gamePlatform);
+                this.hero.stayOnPlatform(platform.gamePlatform);
             }
 
-            const collectible = colliders.find(body => (body as any).gameCollectible);
+            const collectible = colliders.find(body => Collectible.isCollectibleBody(body));
 
             if (hero && collectible) {
-                this.hero.collectCollectible((collectible as any).gameCollectible);
+                this.hero.collectCollectible(collectible.gameCollectible);
             }
 
-            const enemy = colliders.find(body => (body as any).gameEnemy);
+            const enemy = colliders.find(body => Enemy.isEnemyBody(body));
 
             if (hero && enemy) {
                 if (!this.hero.platform && hero.velocity.y > 0) {
-                    this.hero.killEnemy((enemy as any).gameEnemy);
+                    this.hero.killEnemy(enemy.gameEnemy);
                 } else {
                     this.hero.resetScore();
                 }

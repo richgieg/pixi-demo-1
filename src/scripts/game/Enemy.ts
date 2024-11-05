@@ -3,11 +3,13 @@ import * as PIXI from "pixi.js";
 import { gsap } from "gsap";
 import { App } from '../system/App';
 
+type EnemyBody = Matter.Body & { gameEnemy: Enemy };
+
 export class Enemy {
     value: number;
     x: number;
     sprite!: PIXI.AnimatedSprite;
-    body!: Matter.Body;
+    body!: EnemyBody;
     
     constructor(kind: string, value: number, animationSpeed: number, patrollingSpeed: number, platformWidth: number) {
         this.value = value;
@@ -48,9 +50,10 @@ export class Enemy {
     }
 
     createBody() {
-        this.body = Matter.Bodies.rectangle(this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y, this.sprite.width, this.sprite.height, {friction: 0, isStatic: true, render: { fillStyle: '#060a19' }});
+        const body = Matter.Bodies.rectangle(this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y, this.sprite.width, this.sprite.height, {friction: 0, isStatic: true, render: { fillStyle: '#060a19' }});
+        this.body = body as EnemyBody;
         this.body.isSensor = true;
-        (this.body as any).gameEnemy = this;
+        this.body.gameEnemy = this;
         Matter.World.add(App.physics.world, this.body);
     }
 
@@ -62,5 +65,9 @@ export class Enemy {
             (this.sprite as any) = null;
             gsap.killTweensOf(this);
         }
+    }
+
+    static isEnemyBody(body: Matter.Body): body is EnemyBody {
+        return "gameEnemy" in body;
     }
 }

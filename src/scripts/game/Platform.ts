@@ -4,6 +4,8 @@ import { App } from '../system/App';
 import { Collectible } from './Collectible';
 import { Enemy } from './Enemy';
 
+type PlatformBody = Matter.Body & { gamePlatform: Platform };
+
 export class Platform {
     collectibles: Collectible[];
     enemy: Enemy | null;
@@ -14,7 +16,7 @@ export class Platform {
     height: number;
     dx: number;
     container!: PIXI.Container;
-    body!: Matter.Body;
+    body!: PlatformBody;
 
     constructor(rows: number, cols: number, x: number) {
         this.collectibles = [];
@@ -72,9 +74,10 @@ export class Platform {
     }
 
     createBody() {
-        this.body = Matter.Bodies.rectangle(this.width / 2 + this.container.x, this.height / 2 + this.container.y, this.width, this.height, {friction: 0, isStatic: true});
+        const body = Matter.Bodies.rectangle(this.width / 2 + this.container.x, this.height / 2 + this.container.y, this.width, this.height, {friction: 0, isStatic: true});
+        this.body = body as PlatformBody;
+        this.body.gamePlatform = this;
         Matter.World.add(App.physics.world, this.body);
-        (this.body as any).gamePlatform = this;
     }
 
     createContainer(x: number) {
@@ -116,5 +119,9 @@ export class Platform {
             this.enemy.destroy();
         }
         this.container.destroy();
+    }
+
+    static isPlatformBody(body: Matter.Body): body is PlatformBody {
+        return "gamePlatform" in body;
     }
 }
