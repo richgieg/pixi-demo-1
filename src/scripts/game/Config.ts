@@ -1,3 +1,4 @@
+import * as PIXI from "pixi.js";
 import { Tools } from "../system/Tools";
 import { GameScene } from "./GameScene";
 
@@ -99,5 +100,11 @@ export const Config = {
     },
     scenes: {
         "Game": GameScene
+    }
+} satisfies {
+    [key: string]: any,
+    score: {
+        [key: string]: any,
+        style: Partial<PIXI.ITextStyle>
     }
 };
