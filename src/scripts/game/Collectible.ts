@@ -8,22 +8,25 @@ type CollectibleBody = Matter.Body & { gameCollectible: Collectible };
 export class Collectible {
     value: number;
     y: number;
-    sprite!: PIXI.Sprite;
-    body!: CollectibleBody;
+    sprite: PIXI.Sprite;
+    body: CollectibleBody;
 
-    constructor(kind: string, value: number, platformX: number, platformTileSize: number, y: number) {
+    constructor(container: PIXI.Container, kind: string, value: number, platformX: number, platformTileSize: number, y: number) {
         this.value = value;
         this.y = y;
-        this.createSprite(kind, platformX, platformTileSize);
+        this.sprite = this.createSprite(kind, platformX, platformTileSize);
+        container.addChild(this.sprite);
+        this.body = this.createBody();
         App.app.ticker.add(this.update, this);
         this.startFloating();
     }
 
-    createSprite(kind: string, platformX: number, platformTileSize: number) {
-        this.sprite = App.sprite(kind);
+    private createSprite(kind: string, platformX: number, platformTileSize: number) {
+        const sprite = App.sprite(kind);
         // Center the collectible within the platform tile.
-        this.sprite.x = platformX + ((platformTileSize - this.sprite.width) / 2);
-        this.sprite.y = this.y;
+        sprite.x = platformX + ((platformTileSize - sprite.width) / 2);
+        sprite.y = this.y;
+        return sprite;
     }
 
     startFloating() {
@@ -44,12 +47,12 @@ export class Collectible {
         }
     }
 
-    createBody() {
-        const body = Matter.Bodies.rectangle(this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y, this.sprite.width, this.sprite.height, {friction: 0, isStatic: true, render: { fillStyle: '#060a19' }});
-        this.body = body as CollectibleBody;
-        this.body.isSensor = true;
-        this.body.gameCollectible = this;
-        Matter.World.add(App.physics.world, this.body);
+    private createBody() {
+        const body = Matter.Bodies.rectangle(this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y, this.sprite.width, this.sprite.height, {friction: 0, isStatic: true, render: { fillStyle: '#060a19' }}) as CollectibleBody;
+        body.isSensor = true;
+        body.gameCollectible = this;
+        Matter.World.add(App.physics.world, body);
+        return body;
     }
 
     destroy() {

@@ -50,9 +50,7 @@ export class Platform {
     }
 
     createEnemy(kind: string, value: number, animationSpeed: number, patrollingSpeed: number, platformWidth: number) {
-        const enemy = new Enemy(kind, value, animationSpeed, patrollingSpeed, platformWidth);
-        this.container.addChild(enemy.sprite);
-        enemy.createBody();
+        const enemy = new Enemy(this.container, kind, value, animationSpeed, patrollingSpeed, platformWidth);
         this.enemy = enemy;
     }
 
@@ -67,9 +65,7 @@ export class Platform {
     }
 
     createCollectible(kind: string, value: number, platformX: number, platformTileSize: number, y: number) {
-        const collectible = new Collectible(kind, value, platformX, platformTileSize, y);
-        this.container.addChild(collectible.sprite);
-        collectible.createBody();
+        const collectible = new Collectible(this.container, kind, value, platformX, platformTileSize, y);
         this.collectibles.push(collectible);
     }
 

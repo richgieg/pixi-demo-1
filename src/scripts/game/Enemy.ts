@@ -8,28 +8,31 @@ type EnemyBody = Matter.Body & { gameEnemy: Enemy };
 export class Enemy {
     value: number;
     x: number;
-    sprite!: PIXI.AnimatedSprite;
-    body!: EnemyBody;
+    sprite: PIXI.AnimatedSprite;
+    body: EnemyBody;
     
-    constructor(kind: string, value: number, animationSpeed: number, patrollingSpeed: number, platformWidth: number) {
+    constructor(container: PIXI.Container, kind: string, value: number, animationSpeed: number, patrollingSpeed: number, platformWidth: number) {
         this.value = value;
         this.x = 0;
-        this.createSprite(kind, animationSpeed);
+        this.sprite = this.createSprite(kind, animationSpeed);
+        container.addChild(this.sprite);
+        this.body = this.createBody();
         App.app.ticker.add(this.update, this);
         this.startPatrolling(patrollingSpeed, platformWidth);
     }
 
-    createSprite(kind: string, animationSpeed: number) {
-        this.sprite = new PIXI.AnimatedSprite([
+    private createSprite(kind: string, animationSpeed: number) {
+        const sprite = new PIXI.AnimatedSprite([
             App.res(`${kind}-enemy-walk1`),
             App.res(`${kind}-enemy-walk2`)
         ]);
 
-        this.sprite.x = this.x;
-        this.sprite.y = -this.sprite.height;
-        this.sprite.loop = true;
-        this.sprite.animationSpeed = animationSpeed;
-        this.sprite.play();
+        sprite.x = this.x;
+        sprite.y = -sprite.height;
+        sprite.loop = true;
+        sprite.animationSpeed = animationSpeed;
+        sprite.play();
+        return sprite;
     }
 
     startPatrolling(patrollingSpeed: number, platformWidth: number) {
@@ -49,12 +52,12 @@ export class Enemy {
         }
     }
 
-    createBody() {
-        const body = Matter.Bodies.rectangle(this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y, this.sprite.width, this.sprite.height, {friction: 0, isStatic: true, render: { fillStyle: '#060a19' }});
-        this.body = body as EnemyBody;
-        this.body.isSensor = true;
-        this.body.gameEnemy = this;
-        Matter.World.add(App.physics.world, this.body);
+    private createBody() {
+        const body = Matter.Bodies.rectangle(this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y, this.sprite.width, this.sprite.height, {friction: 0, isStatic: true, render: { fillStyle: '#060a19' }}) as EnemyBody;
+        body.isSensor = true;
+        body.gameEnemy = this;
+        Matter.World.add(App.physics.world, body);
+        return body;
     }
 
     destroy() {
