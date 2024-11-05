@@ -24,7 +24,7 @@ export class Platforms {
 
         const offset = ranges.offset.min + Math.round(Math.random() * (ranges.offset.max - ranges.offset.min));
 
-        data.x = (this.current.container as any).x + (this.current.container as any).width + offset;
+        data.x = this.current.container.x + this.current.container.width + offset;
         data.cols = ranges.cols.min + Math.round(Math.random() * (ranges.cols.max - ranges.cols.min));
         data.rows = ranges.rows.min + Math.round(Math.random() * (ranges.rows.max - ranges.rows.min));
 
@@ -34,13 +34,13 @@ export class Platforms {
     
     createPlatform(data: { rows: number, cols: number, x: number }) {
         const platform = new Platform(data.rows, data.cols, data.x);
-        this.container.addChild(platform.container as any);
+        this.container.addChild(platform.container);
         this.platforms.push(platform);
         this.current = platform;
     }
 
     update(dt: number) {
-        if ((this.current.container as any).x + (this.current.container as any).width < window.innerWidth) {
+        if (this.current.container.x + this.current.container.width < window.innerWidth) {
             this.createPlatform(this.randomData);
         }
 

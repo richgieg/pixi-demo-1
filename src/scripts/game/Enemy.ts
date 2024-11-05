@@ -62,7 +62,7 @@ export class Enemy {
             App.app.ticker.remove(this.update, this);
             Matter.World.remove(App.physics.world, this.body);
             this.sprite.destroy();
-            (this.sprite as any) = null;
+            (this.sprite as any) = null; // TODO: fix me
             gsap.killTweensOf(this);
         }
     }

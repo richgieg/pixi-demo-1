@@ -15,7 +15,7 @@ export class Collectible {
         this.value = value;
         this.y = y;
         this.createSprite(kind, platformX, platformTileSize);
-        (App.app as any).ticker.add(this.update, this);
+        App.app.ticker.add(this.update, this);
         this.startFloating();
     }
 
@@ -54,8 +54,8 @@ export class Collectible {
 
     destroy() {
         if (this.sprite) {
-            (App.app as any).ticker.remove(this.update, this);
-            Matter.World.remove((App.physics as any).world, this.body);
+            App.app.ticker.remove(this.update, this);
+            Matter.World.remove(App.physics.world, this.body);
             this.sprite.destroy();
             (this.sprite as any) = null; // TODO: fix me
             gsap.killTweensOf(this);
