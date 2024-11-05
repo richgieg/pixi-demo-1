@@ -8,17 +8,17 @@ import { Platform } from './Platform';
 type HeroBody = Matter.Body & { gameHero: Hero };
 
 export class Hero {
+    sprite: PIXI.AnimatedSprite;
+    body: HeroBody;
     dy: number;
     maxJumps: number;
     jumpIndex: number;
     score: number;
-    sprite!: PIXI.AnimatedSprite;
-    body!: HeroBody;
     platform: Platform | null;
 
     constructor() {
-        this.createSprite();
-        this.createBody();
+        this.sprite = this.createSprite();
+        this.body = this.createBody();
         App.app.ticker.add(this.update, this);
 
         this.dy = App.config.hero.jumpSpeed;
@@ -60,11 +60,11 @@ export class Hero {
     }
     // [/08]
 
-    createBody() {
-        const body = Matter.Bodies.rectangle(this.sprite.x + this.sprite.width / 2, this.sprite.y + this.sprite.height / 2, this.sprite.width, this.sprite.height, {friction: 0});
-        this.body = body as HeroBody;
-        this.body.gameHero = this;
-        Matter.World.add(App.physics.world, this.body);
+    private createBody() {
+        const body = Matter.Bodies.rectangle(this.sprite.x + this.sprite.width / 2, this.sprite.y + this.sprite.height / 2, this.sprite.width, this.sprite.height, {friction: 0}) as HeroBody;
+        body.gameHero = this;
+        Matter.World.add(App.physics.world, body);
+        return body;
     }
 
     update() {
@@ -78,17 +78,18 @@ export class Hero {
         // [/14]
     }
 
-    createSprite() {
-        this.sprite = new PIXI.AnimatedSprite([
+    private createSprite() {
+        const sprite = new PIXI.AnimatedSprite([
             App.res("walk1"),
             App.res("walk2")
         ]);
 
-        this.sprite.x = App.config.hero.position.x;
-        this.sprite.y = App.config.hero.position.y;
-        this.sprite.loop = true;
-        this.sprite.animationSpeed = 0.1;
-        this.sprite.play();
+        sprite.x = App.config.hero.position.x;
+        sprite.y = App.config.hero.position.y;
+        sprite.loop = true;
+        sprite.animationSpeed = 0.1;
+        sprite.play();
+        return sprite;
     }
 
     destroy() {

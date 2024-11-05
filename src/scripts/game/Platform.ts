@@ -7,21 +7,18 @@ import { Enemy } from './Enemy';
 type PlatformBody = Matter.Body & { gamePlatform: Platform };
 
 export class Platform {
-    collectibles: Collectible[];
-    enemy: Enemy | null;
     rows: number;
     cols: number;
     tileSize: number;
     width: number;
     height: number;
     dx: number;
-    container!: PIXI.Container;
-    body!: PlatformBody;
+    container: PIXI.Container;
+    body: PlatformBody;
+    collectibles: Collectible[];
+    enemy: Enemy | null;
 
     constructor(rows: number, cols: number, x: number) {
-        this.collectibles = [];
-        this.enemy = null;
-
         this.rows = rows;
         this.cols = cols;
 
@@ -29,60 +26,56 @@ export class Platform {
         this.width = this.tileSize * this.cols;
         this.height = this.tileSize * this.rows;
 
-        this.createContainer(x);
+        this.container = this.createContainer(x);
         this.createTiles();
 
         this.dx = App.config.platforms.moveSpeed;
-        this.createBody();
-        this.createCollectibles();
-        this.maybeCreateEnemy();
+        this.body = this.createBody();
+
+        this.collectibles = this.createCollectibles();
+        this.enemy = this.maybeCreateEnemy();
     }
 
-    maybeCreateEnemy() {
+    private maybeCreateEnemy(): Enemy | null {
         App.config.enemies.sort((a, b) => a.chance - b.chance);
         const random = Math.random();
         for (const { kind, value, chance, animationSpeed, patrollingSpeed } of App.config.enemies) {
             if (random < chance) {
-                this.createEnemy(kind, value, animationSpeed, patrollingSpeed, this.tileSize * this.cols);
-                break;
+                return new Enemy(this.container, kind, value, animationSpeed, patrollingSpeed, this.tileSize * this.cols)
             }
         }
+        return null;
     }
 
-    createEnemy(kind: string, value: number, animationSpeed: number, patrollingSpeed: number, platformWidth: number) {
-        const enemy = new Enemy(this.container, kind, value, animationSpeed, patrollingSpeed, platformWidth);
-        this.enemy = enemy;
-    }
-
-    createCollectibles() {
+    private createCollectibles() {
+        const collectibles: Collectible[] = [];
         for (let i = 0; i < this.cols; i++) {
             for (const { kind, value, chance, offset } of App.config.collectibles) {
                 if (Math.random() < chance) {
-                    this.createCollectible(kind, value, this.tileSize * i, this.tileSize, -offset);
+                    collectibles.push(
+                        new Collectible(this.container, kind, value, this.tileSize * i, this.tileSize, -offset)
+                    )
                 }
             }
         }
+        return collectibles;
     }
 
-    createCollectible(kind: string, value: number, platformX: number, platformTileSize: number, y: number) {
-        const collectible = new Collectible(this.container, kind, value, platformX, platformTileSize, y);
-        this.collectibles.push(collectible);
+    private createBody() {
+        const body = Matter.Bodies.rectangle(this.width / 2 + this.container.x, this.height / 2 + this.container.y, this.width, this.height, {friction: 0, isStatic: true}) as PlatformBody;
+        body.gamePlatform = this;
+        Matter.World.add(App.physics.world, body);
+        return body;
     }
 
-    createBody() {
-        const body = Matter.Bodies.rectangle(this.width / 2 + this.container.x, this.height / 2 + this.container.y, this.width, this.height, {friction: 0, isStatic: true});
-        this.body = body as PlatformBody;
-        this.body.gamePlatform = this;
-        Matter.World.add(App.physics.world, this.body);
+    private createContainer(x: number) {
+        const container = new PIXI.Container();
+        container.x = x;
+        container.y = window.innerHeight - this.height;
+        return container;
     }
 
-    createContainer(x: number) {
-        this.container = new PIXI.Container();
-        this.container.x = x;
-        this.container.y = window.innerHeight - this.height;
-    }
-
-    createTiles() {
+    private createTiles() {
         for (let row = 0; row < this.rows; row++) {
             for (let col = 0; col < this.cols; col++) {
                 this.createTile(row, col);
@@ -90,7 +83,7 @@ export class Platform {
         }
     }
 
-    createTile(row: number, col: number) {
+    private createTile(row: number, col: number) {
         const texture = row === 0 ? "platform" : "tile" 
         const tile = App.sprite(texture);
         this.container.addChild(tile);
