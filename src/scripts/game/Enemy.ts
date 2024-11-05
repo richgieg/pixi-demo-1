@@ -4,7 +4,12 @@ import { gsap } from "gsap";
 import { App } from '../system/App';
 
 export class Enemy {
-    constructor(kind, value, animationSpeed, patrollingSpeed, platformWidth) {
+    value: number;
+    x: number;
+    sprite!: PIXI.AnimatedSprite;
+    body!: Matter.Body;
+    
+    constructor(kind: string, value: number, animationSpeed: number, patrollingSpeed: number, platformWidth: number) {
         this.value = value;
         this.x = 0;
         this.createSprite(kind, animationSpeed);
@@ -12,7 +17,7 @@ export class Enemy {
         this.startPatrolling(patrollingSpeed, platformWidth);
     }
 
-    createSprite(kind, animationSpeed) {
+    createSprite(kind: string, animationSpeed: number) {
         this.sprite = new PIXI.AnimatedSprite([
             App.res(`${kind}-enemy-walk1`),
             App.res(`${kind}-enemy-walk2`)
@@ -25,7 +30,7 @@ export class Enemy {
         this.sprite.play();
     }
 
-    startPatrolling(patrollingSpeed, platformWidth) {
+    startPatrolling(patrollingSpeed: number, platformWidth: number) {
         gsap.to(this, {
             x: platformWidth - this.sprite.width,
             duration: 1 / patrollingSpeed * platformWidth,
@@ -45,7 +50,7 @@ export class Enemy {
     createBody() {
         this.body = Matter.Bodies.rectangle(this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y, this.sprite.width, this.sprite.height, {friction: 0, isStatic: true, render: { fillStyle: '#060a19' }});
         this.body.isSensor = true;
-        this.body.gameEnemy = this;
+        (this.body as any).gameEnemy = this;
         Matter.World.add(App.physics.world, this.body);
     }
 
@@ -54,7 +59,7 @@ export class Enemy {
             App.app.ticker.remove(this.update, this);
             Matter.World.remove(App.physics.world, this.body);
             this.sprite.destroy();
-            this.sprite = null;
+            (this.sprite as any) = null;
             gsap.killTweensOf(this);
         }
     }
