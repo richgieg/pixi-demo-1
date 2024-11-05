@@ -41,7 +41,7 @@ export class Platform {
         const random = Math.random();
         for (const { kind, value, chance, animationSpeed, patrollingSpeed } of App.config.enemies) {
             if (random < chance) {
-                return new Enemy(this.container, kind, value, animationSpeed, patrollingSpeed, this.tileSize * this.cols)
+                return new Enemy(this.container, kind, value, animationSpeed, patrollingSpeed, this.tileSize * this.cols);
             }
         }
         return null;
@@ -54,7 +54,7 @@ export class Platform {
                 if (Math.random() < chance) {
                     collectibles.push(
                         new Collectible(this.container, kind, value, this.tileSize * i, this.tileSize, -offset)
-                    )
+                    );
                 }
             }
         }
