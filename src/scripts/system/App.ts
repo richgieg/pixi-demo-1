@@ -9,7 +9,7 @@ import { Config } from "scripts/game/Config";
 class Application {
     config!: Config;
     app!: PIXI.Application;
-    loader!: Loader;
+    private loader!: Loader;
     scenes!: ScenesManager;
     physics!: Matter.Engine;
 

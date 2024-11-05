@@ -10,10 +10,10 @@ import { Collectible } from './Collectible';
 import { Enemy } from './Enemy';
 
 export class GameScene extends Scene {
-    labelScore!: LabelScore;
-    hero!: Hero;
-    bg!: Background;
-    platforms!: Platforms;
+    private labelScore!: LabelScore;
+    private hero!: Hero;
+    private bg!: Background;
+    private platforms!: Platforms;
 
     create() {
         this.createBackground();

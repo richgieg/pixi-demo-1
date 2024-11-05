@@ -7,9 +7,9 @@ type EnemyBody = Matter.Body & { gameEnemy: Enemy };
 
 export class Enemy {
     value: number;
-    x: number;
-    sprite: PIXI.AnimatedSprite;
-    body: EnemyBody;
+    private x: number;
+    private sprite: PIXI.AnimatedSprite;
+    private body: EnemyBody;
     
     constructor(container: PIXI.Container, kind: string, value: number, animationSpeed: number, patrollingSpeed: number, platformWidth: number) {
         this.value = value;

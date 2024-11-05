@@ -2,8 +2,8 @@ import * as PIXI from "pixi.js";
 import { App } from "../system/App";
 
 export class Background {
-    sprites: PIXI.Sprite[];
-    speed: number;
+    private sprites: PIXI.Sprite[];
+    private speed: number;
     container: PIXI.Container;
 
     constructor() {

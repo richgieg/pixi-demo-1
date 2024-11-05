@@ -7,16 +7,16 @@ import { Enemy } from './Enemy';
 type PlatformBody = Matter.Body & { gamePlatform: Platform };
 
 export class Platform {
-    rows: number;
-    cols: number;
-    tileSize: number;
-    width: number;
-    height: number;
-    dx: number;
+    private rows: number;
+    private cols: number;
+    private tileSize: number;
+    private width: number;
+    private height: number;
+    private dx: number;
     container: PIXI.Container;
-    body: PlatformBody;
-    collectibles: Collectible[];
-    enemy: Enemy | null;
+    private body: PlatformBody;
+    private collectibles: Collectible[];
+    private enemy: Enemy | null;
 
     constructor(rows: number, cols: number, x: number) {
         this.rows = rows;

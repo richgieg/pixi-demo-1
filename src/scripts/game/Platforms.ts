@@ -3,9 +3,9 @@ import { App } from "../system/App";
 import { Platform } from "./Platform";
 
 export class Platforms {
-    platforms: Platform[];
+    private platforms: Platform[];
     container: PIXI.Container;
-    current: Platform;
+    private current: Platform;
 
     constructor() {
         this.platforms = [];

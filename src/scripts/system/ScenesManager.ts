@@ -4,7 +4,7 @@ import { Scene } from "./Scene";
 
 export class ScenesManager {
     container: PIXI.Container;
-    scene: Scene | null;
+    private scene: Scene | null;
 
     constructor() {
         this.container = new PIXI.Container();

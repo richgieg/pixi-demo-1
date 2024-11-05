@@ -7,9 +7,9 @@ type CollectibleBody = Matter.Body & { gameCollectible: Collectible };
 
 export class Collectible {
     value: number;
-    y: number;
-    sprite: PIXI.Sprite;
-    body: CollectibleBody;
+    private y: number;
+    private sprite: PIXI.Sprite;
+    private body: CollectibleBody;
 
     constructor(container: PIXI.Container, kind: string, value: number, platformX: number, platformTileSize: number, y: number) {
         this.value = value;

@@ -9,10 +9,10 @@ type HeroBody = Matter.Body & { gameHero: Hero };
 
 export class Hero {
     sprite: PIXI.AnimatedSprite;
-    body: HeroBody;
-    dy: number;
-    maxJumps: number;
-    jumpIndex: number;
+    private body: HeroBody;
+    private dy: number;
+    private maxJumps: number;
+    private jumpIndex: number;
     score: number;
     platform: Platform | null;
 
