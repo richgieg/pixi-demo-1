@@ -6,10 +6,10 @@ import { App } from '../system/App';
 type CollectibleBody = Matter.Body & { gameCollectible: Collectible };
 
 export class Collectible {
-    value: number;
+    readonly value: number;
     private y: number;
-    private sprite: PIXI.Sprite;
-    private body: CollectibleBody;
+    private readonly sprite: PIXI.Sprite;
+    private readonly body: CollectibleBody;
 
     constructor(container: PIXI.Container, kind: string, value: number, platformX: number, platformTileSize: number, y: number) {
         this.value = value;

@@ -6,10 +6,10 @@ import { App } from '../system/App';
 type EnemyBody = Matter.Body & { gameEnemy: Enemy };
 
 export class Enemy {
-    value: number;
+    readonly value: number;
     private x: number;
-    private sprite: PIXI.AnimatedSprite;
-    private body: EnemyBody;
+    private readonly sprite: PIXI.AnimatedSprite;
+    private readonly body: EnemyBody;
     
     constructor(container: PIXI.Container, kind: string, value: number, animationSpeed: number, patrollingSpeed: number, platformWidth: number) {
         this.value = value;

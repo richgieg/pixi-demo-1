@@ -1,8 +1,8 @@
 import { Config } from "scripts/game/Config";
 
 export class Loader {
-    private loader: any;
-    private config: Config;
+    private readonly loader: any;
+    private readonly config: Config;
     resources: any;
 
     constructor(loader: any, config: Config) {

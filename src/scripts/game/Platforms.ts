@@ -3,8 +3,8 @@ import { App } from "../system/App";
 import { Platform } from "./Platform";
 
 export class Platforms {
-    private platforms: Platform[];
-    container: PIXI.Container;
+    private readonly platforms: Platform[];
+    readonly container: PIXI.Container;
     private current: Platform;
 
     constructor() {

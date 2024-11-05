@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { App } from "./App";
 
 export abstract class Scene {
-    container: PIXI.Container;
+    readonly container: PIXI.Container;
 
     constructor() {
         this.container = new PIXI.Container();

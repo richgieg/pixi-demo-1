@@ -8,10 +8,10 @@ import { Platform } from './Platform';
 type HeroBody = Matter.Body & { gameHero: Hero };
 
 export class Hero {
-    sprite: PIXI.AnimatedSprite;
-    private body: HeroBody;
-    private dy: number;
-    private maxJumps: number;
+    readonly sprite: PIXI.AnimatedSprite;
+    private readonly body: HeroBody;
+    private readonly dy: number;
+    private readonly maxJumps: number;
     private jumpIndex: number;
     score: number;
     platform: Platform | null;

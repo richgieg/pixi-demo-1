@@ -3,7 +3,7 @@ import { App } from "./App";
 import { Scene } from "./Scene";
 
 export class ScenesManager {
-    container: PIXI.Container;
+    readonly container: PIXI.Container;
     private scene: Scene | null;
 
     constructor() {
