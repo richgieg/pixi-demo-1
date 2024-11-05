@@ -1,17 +1,23 @@
+import * as PIXI from "pixi.js";
 import * as Matter from 'matter-js';
 import { gsap } from "gsap";
 import { App } from '../system/App';
 
 export class Collectible {
-    constructor(kind, value, platformX, platformTileSize, y) {
+    value: number;
+    y: number;
+    sprite!: PIXI.Sprite;
+    body!: Matter.Body;
+
+    constructor(kind: string, value: number, platformX: number, platformTileSize: number, y: number) {
         this.value = value;
         this.y = y;
         this.createSprite(kind, platformX, platformTileSize);
-        App.app.ticker.add(this.update, this);
+        (App.app as any).ticker.add(this.update, this);
         this.startFloating();
     }
 
-    createSprite(kind, platformX, platformTileSize) {
+    createSprite(kind: string, platformX: number, platformTileSize: number) {
         this.sprite = App.sprite(kind);
         // Center the collectible within the platform tile.
         this.sprite.x = platformX + ((platformTileSize - this.sprite.width) / 2);
@@ -39,16 +45,16 @@ export class Collectible {
     createBody() {
         this.body = Matter.Bodies.rectangle(this.sprite.width / 2 + this.sprite.x + this.sprite.parent.x, this.sprite.height / 2 + this.sprite.y + this.sprite.parent.y, this.sprite.width, this.sprite.height, {friction: 0, isStatic: true, render: { fillStyle: '#060a19' }});
         this.body.isSensor = true;
-        this.body.gameCollectible = this;
-        Matter.World.add(App.physics.world, this.body);
+        (this.body as any).gameCollectible = this;
+        Matter.World.add((App.physics as any).world, this.body);
     }
 
     destroy() {
         if (this.sprite) {
-            App.app.ticker.remove(this.update, this);
-            Matter.World.remove(App.physics.world, this.body);
+            (App.app as any).ticker.remove(this.update, this);
+            Matter.World.remove((App.physics as any).world, this.body);
             this.sprite.destroy();
-            this.sprite = null;
+            // this.sprite = null; // TODO: remove me
             gsap.killTweensOf(this);
         }
     }
