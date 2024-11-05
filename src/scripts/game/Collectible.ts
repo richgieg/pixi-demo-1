@@ -54,7 +54,7 @@ export class Collectible {
             (App.app as any).ticker.remove(this.update, this);
             Matter.World.remove((App.physics as any).world, this.body);
             this.sprite.destroy();
-            // this.sprite = null; // TODO: remove me
+            (this.sprite as any) = null; // TODO: fix me
             gsap.killTweensOf(this);
         }
     }
