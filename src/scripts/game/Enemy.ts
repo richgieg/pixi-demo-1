@@ -35,7 +35,7 @@ export class Enemy {
         return sprite;
     }
 
-    startPatrolling(patrollingSpeed: number, platformWidth: number) {
+    private startPatrolling(patrollingSpeed: number, platformWidth: number) {
         gsap.to(this, {
             x: platformWidth - this.sprite.width,
             duration: 1 / patrollingSpeed * platformWidth,

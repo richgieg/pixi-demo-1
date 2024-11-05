@@ -25,7 +25,7 @@ export class GameScene extends Scene {
         //[/13]
     }
     //[13]
-    createUI() {
+    private createUI() {
         this.labelScore = new LabelScore();
         this.container.addChild(this.labelScore);
         this.hero.sprite.on("score", () => {
@@ -34,11 +34,11 @@ export class GameScene extends Scene {
     }
     //[13]
 
-    setEvents() {
+    private setEvents() {
         Matter.Events.on(App.physics, 'collisionStart', this.onCollisionStart.bind(this));
     }
 
-    onCollisionStart(event: Matter.IEventCollision<Matter.Engine>) {
+    private onCollisionStart(event: Matter.IEventCollision<Matter.Engine>) {
         event.pairs.forEach(pair => {
             const colliders = [pair.bodyA, pair.bodyB];
             const hero = colliders.find(body => Hero.isHeroBody(body));
@@ -66,7 +66,7 @@ export class GameScene extends Scene {
         });
     }
 
-    createHero() {
+    private createHero() {
         this.hero = new Hero();
         this.container.addChild(this.hero.sprite);
 
@@ -82,12 +82,12 @@ export class GameScene extends Scene {
         // [/14]
     }
 
-    createBackground() {
+    private createBackground() {
         this.bg = new Background();
         this.container.addChild(this.bg.container);
     }
 
-    createPlatforms() {
+    private createPlatforms() {
         this.platforms = new Platforms();
         this.container.addChild(this.platforms.container);
     }

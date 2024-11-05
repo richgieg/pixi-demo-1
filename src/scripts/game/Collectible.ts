@@ -29,7 +29,7 @@ export class Collectible {
         return sprite;
     }
 
-    startFloating() {
+    private startFloating() {
         gsap.to(this, {
             y: this.y - 2,
             duration: 0.25,

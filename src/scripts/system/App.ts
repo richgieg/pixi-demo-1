@@ -33,7 +33,7 @@ class Application {
         this.createPhysics();
     }
 
-    createPhysics() {
+    private createPhysics() {
         this.physics = Matter.Engine.create();
     }
     // [/06]
@@ -46,7 +46,7 @@ class Application {
         return new PIXI.Sprite(this.res(key));
     }
 
-    start() {
+    private start() {
         this.scenes.start("Game");
     }
 }

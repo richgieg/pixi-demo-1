@@ -18,7 +18,7 @@ export class Platforms {
         });
     }
 
-    get randomData() {
+    private get randomData() {
         const ranges = App.config.platforms.ranges;
         let data = { rows: 0, cols: 0, x: 0 };
 
@@ -32,7 +32,7 @@ export class Platforms {
     }
 
     
-    createPlatform(data: { rows: number, cols: number, x: number }) {
+    private createPlatform(data: { rows: number, cols: number, x: number }) {
         const platform = new Platform(data.rows, data.cols, data.x);
         this.container.addChild(platform.container);
         this.platforms.push(platform);

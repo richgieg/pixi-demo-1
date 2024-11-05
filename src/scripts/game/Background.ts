@@ -13,13 +13,13 @@ export class Background {
         this.createSprites();
     }
 
-    createSprites() {
+    private createSprites() {
         for (let i = 0; i < 3; i++) {
             this.createSprite(i);
         }
     }
 
-    createSprite(i: number) {
+    private createSprite(i: number) {
         const sprite = App.sprite("bg");
 
         sprite.x = sprite.width * i;
@@ -28,7 +28,7 @@ export class Background {
         this.sprites.push(sprite);
     }
 
-    move(sprite: PIXI.Sprite, offset: number) {
+    private move(sprite: PIXI.Sprite, offset: number) {
         const spriteRightX = sprite.x + sprite.width;
 
         const screenLeftX  = 0;
