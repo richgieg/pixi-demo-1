@@ -7,6 +7,9 @@ module.exports = {
   mode: "development",
   devtool: "eval-source-map",
   entry: "./src/scripts/index.ts",
+  resolve: {
+    extensions: [".ts", ".js"]
+  },
   module: {
     rules: [
       {
