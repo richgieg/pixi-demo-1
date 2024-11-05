@@ -61,11 +61,10 @@ export class Enemy {
     }
 
     destroy() {
-        if (this.sprite) {
+        if (!this.sprite.destroyed) {
             App.app.ticker.remove(this.update, this);
             Matter.World.remove(App.physics.world, this.body);
             this.sprite.destroy();
-            (this.sprite as any) = null; // TODO: fix me
             gsap.killTweensOf(this);
         }
     }
