@@ -12,13 +12,13 @@ export class ScenesManager {
         this.scene = null;
     }
 
-    start(scene: string) {
+    start(scene: keyof typeof App.config.scenes) {
         if (this.scene) {
             this.scene.destroy();
         }
 
-        this.scene = new (App.config.scenes as any)[scene]();
-        this.container.addChild(this.scene!.container); // TODO: fix me
+        this.scene = new App.config.scenes[scene]();
+        this.container.addChild(this.scene.container);
     }
 
     update(dt: number) {
