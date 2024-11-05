@@ -1,6 +1,8 @@
 import { Tools } from "../system/Tools";
 import { GameScene } from "./GameScene";
 
+export type Config = typeof Config;
+
 export const Config = {
     loader: Tools.massiveRequire((require as any)["context"]('./../../sprites/', true, /\.(mp3|png|jpe?g)$/)),
     bgSpeed: 2,
