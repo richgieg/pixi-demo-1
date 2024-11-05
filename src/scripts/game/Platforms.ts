@@ -5,13 +5,13 @@ import { Platform } from "./Platform";
 export class Platforms {
     platforms: Platform[];
     container: PIXI.Container;
-    current!: Platform;
+    current: Platform;
 
     constructor() {
         this.platforms = [];
         this.container = new PIXI.Container();
 
-        this.createPlatform({
+        this.current = this.createPlatform({
             rows: 4,
             cols: 6,
             x: 200
@@ -36,12 +36,12 @@ export class Platforms {
         const platform = new Platform(data.rows, data.cols, data.x);
         this.container.addChild(platform.container);
         this.platforms.push(platform);
-        this.current = platform;
+        return platform;
     }
 
     update(dt: number) {
         if (this.current.container.x + this.current.container.width < window.innerWidth) {
-            this.createPlatform(this.randomData);
+            this.current = this.createPlatform(this.randomData);
         }
 
         // 06
