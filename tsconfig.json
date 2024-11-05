@@ -9,7 +9,8 @@
     "outDir": "./dist",                       // Output directory
     "sourceMap": true,                        // Generate source maps
     "baseUrl": "./src",                       // Base directory for non-relative module names
-    "skipLibCheck": true                      // Skip type checking of declaration files
+    "skipLibCheck": true,                     // Skip type checking of declaration files
+    "moduleResolution": "node"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
